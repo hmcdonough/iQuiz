@@ -21,14 +21,6 @@
                                 <animations/>
                                 <items>
                                     <barButtonItem title="Item" id="IU9-s4-8h6"/>
-                                    <barButtonItem style="plain" id="cAb-sp-FJF">
-                                        <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="cxw-Hb-zxT">
-                                            <rect key="frame" x="64" y="7" width="293" height="30"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <animations/>
-                                            <state key="normal" title="Button"/>
-                                        </button>
-                                    </barButtonItem>
                                 </items>
                             </toolbar>
                         </subviews>

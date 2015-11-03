@@ -14,26 +14,56 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
     var detailViewController: DetailViewController? = nil
     var managedObjectContext: NSManagedObjectContext? = nil
     
+    @IBOutlet weak var settingsButton: UIBarButtonItem!
+    
     let alertController = UIAlertController(title: "Settings Go Here", message: "Okie Dokie", preferredStyle: .Alert)
 
-    @IBAction func clickSettings(sender: UIButton) {
+    @IBAction func clickSettingsButton(sender: AnyObject) {
         self.presentViewController(alertController, animated: true) {
             
         }
     }
+
+    class quizTemplate {
+        var pictureId: String!
+        var title: String!
+        var subtext: String!
+        
+        init(title: String, pictureId: String, subtext: String){
+            self.pictureId = pictureId
+            self.title = title
+            self.subtext = subtext
+        }
+    }
+    
+    class quizDataSource {
+        var quizzes:[quizTemplate]
+        
+        init() {
+            quizzes = []
+            
+            let q1 = quizTemplate(title: "Math", pictureId: "123", subtext: "Challenge your arithmetic skills")
+            let q2 = quizTemplate(title: "Marvel", pictureId: "456", subtext: "Think you've got what it takes to challenge these superheroes?")
+            let q3 = quizTemplate(title: "Science", pictureId: "789", subtext: "Don't trust banks, take science quizzes")
+
+            quizzes.append(q1)
+            quizzes.append(q2)
+            quizzes.append(q3)
+        }
+        
+        func getQuizzes() -> [quizTemplate] {
+            return quizzes
+        }
+        
+    }
+    
+    let quizList = quizDataSource()
+    var quizzes : [quizTemplate] = quizDataSource().getQuizzes()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-//        self.navigationItem.leftBarButtonItem = self.editButtonItem()
 
-//        let addButton = UIBarButtonItem(barButtonSystemItem: .Add, target: self, action: "insertNewObject:")
-//        self.navigationItem.rightBarButtonItem = addButton
-//        if let split = self.splitViewController {
-//            let controllers = split.viewControllers
-//            self.detailViewController = (controllers[controllers.count-1] as! UINavigationController).topViewController as? DetailViewController
-//        }
-
-        
+        self.navigationItem.leftBarButtonItem = settingsButton
         let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel) { (action) in
             
         }
@@ -43,6 +73,10 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
             
         }
         alertController.addAction(OKAction)
+        
+        self.tableView.delegate = self
+        self.tableView.dataSource = self
+        self.quizzes = quizList.getQuizzes()
     }
 
     override func viewWillAppear(animated: Bool) {
@@ -55,25 +89,25 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
         // Dispose of any resources that can be recreated.
     }
 
-    func insertNewObject(sender: AnyObject) {
-        let context = self.fetchedResultsController.managedObjectContext
-        let entity = self.fetchedResultsController.fetchRequest.entity!
-        let newManagedObject = NSEntityDescription.insertNewObjectForEntityForName(entity.name!, inManagedObjectContext: context)
-             
-        // If appropriate, configure the new managed object.
-        // Normally you should use accessor methods, but using KVC here avoids the need to add a custom class to the template.
-        newManagedObject.setValue(NSDate(), forKey: "timeStamp")
-             
-        // Save the context.
-        do {
-            try context.save()
-        } catch {
-            // Replace this implementation with code to handle the error appropriately.
-            // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-            //print("Unresolved error \(error), \(error.userInfo)")
-            abort()
-        }
-    }
+//    func insertNewObject(sender: AnyObject) {
+//        let context = self.fetchedResultsController.managedObjectContext
+//        let entity = self.fetchedResultsController.fetchRequest.entity!
+//        let newManagedObject = NSEntityDescription.insertNewObjectForEntityForName(entity.name!, inManagedObjectContext: context)
+//             
+//        // If appropriate, configure the new managed object.
+//        // Normally you should use accessor methods, but using KVC here avoids the need to add a custom class to the template.
+//        newManagedObject.setValue(NSDate(), forKey: "timeStamp")
+//             
+//        // Save the context.
+//        do {
+//            try context.save()
+//        } catch {
+//            // Replace this implementation with code to handle the error appropriately.
+//            // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+//            //print("Unresolved error \(error), \(error.userInfo)")
+//            abort()
+//        }
+//    }
 
     // MARK: - Segues
 
@@ -96,13 +130,17 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let sectionInfo = self.fetchedResultsController.sections![section]
-        return sectionInfo.numberOfObjects
+        return quizzes.count
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath)
         self.configureCell(cell, atIndexPath: indexPath)
+        
+        let quiz = self.quizzes[indexPath.row] as? quizTemplate
+        cell.selectionStyle = UITableViewCellSelectionStyle.None
+        cell.textLabel?.text = quiz?.title
+        cell.detailTextLabel?.text = quiz?.subtext
         return cell
     }
 
@@ -128,8 +166,8 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
     }
 
     func configureCell(cell: UITableViewCell, atIndexPath indexPath: NSIndexPath) {
-        let object = self.fetchedResultsController.objectAtIndexPath(indexPath)
-        cell.textLabel!.text = object.valueForKey("timeStamp")!.description
+//        let object = self.fetchedResultsController.objectAtIndexPath(indexPath)
+//        cell.textLabel!.text = object.valueForKey("timeStamp")!.description
     }
 
     // MARK: - Fetched results controller
