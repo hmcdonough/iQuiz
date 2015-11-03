@@ -25,12 +25,12 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
     }
 
     class quizTemplate {
-        var pictureId: String!
+        var imageName: String!
         var title: String!
         var subtext: String!
         
-        init(title: String, pictureId: String, subtext: String){
-            self.pictureId = pictureId
+        init(title: String, imageName: String, subtext: String){
+            self.imageName = imageName
             self.title = title
             self.subtext = subtext
         }
@@ -42,9 +42,9 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
         init() {
             quizzes = []
             
-            let q1 = quizTemplate(title: "Math", pictureId: "123", subtext: "Challenge your arithmetic skills")
-            let q2 = quizTemplate(title: "Marvel", pictureId: "456", subtext: "Think you've got what it takes to challenge these superheroes?")
-            let q3 = quizTemplate(title: "Science", pictureId: "789", subtext: "Don't trust banks, take science quizzes")
+            let q1 = quizTemplate(title: "Math", imageName: "Math.jpg", subtext: "Challenge your arithmetic skills")
+            let q2 = quizTemplate(title: "Marvel Super Heroes", imageName: "marvel.jpeg", subtext: "Think you've got what it takes to challenge these superheroes?")
+            let q3 = quizTemplate(title: "Science", imageName: "Science.jpg", subtext: "Don't trust banks, take science quizzes")
 
             quizzes.append(q1)
             quizzes.append(q2)
@@ -139,9 +139,9 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
         self.configureCell(cell, atIndexPath: indexPath)
         
         let quiz = self.quizzes[indexPath.row]
-//        cell.selectionStyle = UITableViewCellSelectionStyle.None
         cell.textLabel?.text = quiz.title
         cell.detailTextLabel?.text = quiz.subtext
+        cell.imageView?.image = UIImage(named: quiz.imageName)
         return cell
     }
 
