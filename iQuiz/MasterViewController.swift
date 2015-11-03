@@ -112,15 +112,15 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
     // MARK: - Segues
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segue.identifier == "showDetail" {
-            if let indexPath = self.tableView.indexPathForSelectedRow {
-            let object = self.fetchedResultsController.objectAtIndexPath(indexPath)
-                let controller = (segue.destinationViewController as! UINavigationController).topViewController as! DetailViewController
-                controller.detailItem = object
-                controller.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem()
-                controller.navigationItem.leftItemsSupplementBackButton = true
-            }
-        }
+//        if segue.identifier == "showDetail" {
+//            if let indexPath = self.tableView.indexPathForSelectedRow {
+//            let object = self.fetchedResultsController.objectAtIndexPath(indexPath)
+//                let controller = (segue.destinationViewController as! UINavigationController).topViewController as! DetailViewController
+//                controller.detailItem = object
+//                controller.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem()
+//                controller.navigationItem.leftItemsSupplementBackButton = true
+//            }
+//        }
     }
 
     // MARK: - Table View
@@ -137,10 +137,10 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
         let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath)
         self.configureCell(cell, atIndexPath: indexPath)
         
-        let quiz = self.quizzes[indexPath.row] as? quizTemplate
-        cell.selectionStyle = UITableViewCellSelectionStyle.None
-        cell.textLabel?.text = quiz?.title
-        cell.detailTextLabel?.text = quiz?.subtext
+        let quiz = self.quizzes[indexPath.row]
+//        cell.selectionStyle = UITableViewCellSelectionStyle.None
+        cell.textLabel?.text = quiz.title
+        cell.detailTextLabel?.text = quiz.subtext
         return cell
     }
 
