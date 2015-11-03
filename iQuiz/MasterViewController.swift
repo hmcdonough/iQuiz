@@ -63,6 +63,7 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        tableView.tableFooterView = UIView()
         self.navigationItem.leftBarButtonItem = settingsButton
         let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel) { (action) in
             
