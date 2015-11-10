@@ -12,6 +12,9 @@ class DetailViewController: UIViewController {
 
     @IBOutlet weak var detailDescriptionLabel: UILabel!
 
+    @IBOutlet weak var questionLabel: UILabel!
+    @IBOutlet weak var picker: UIPickerView!
+    let pickerData = ["1", "2", "3"]
 
     var detailItem: AnyObject? {
         didSet {
@@ -33,7 +36,10 @@ class DetailViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         self.configureView()
+//        picker.dataSource = self;
+
     }
+
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="15A284" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="H1p-Uh-vWS">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="H1p-Uh-vWS">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
     </dependencies>
@@ -32,32 +32,89 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" text="Detail view content goes here" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="0XM-y9-sOw">
-                                <rect key="frame" x="20" y="292" width="560" height="17"/>
+                            <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MJc-OM-4ix">
+                                <rect key="frame" x="140" y="192" width="320" height="216"/>
                                 <animations/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <fontDescription key="fontDescription" type="system" size="system"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            </pickerView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Question Blah blah blah" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="srB-rG-oLg">
+                                <rect key="frame" x="209" y="126" width="181" height="20.5"/>
+                                <animations/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hoe-7M-ddW">
+                                <rect key="frame" x="276" y="472" width="49" height="30"/>
+                                <animations/>
+                                <state key="normal" title="Submit"/>
+                                <connections>
+                                    <segue destination="AwY-9K-8TQ" kind="showDetail" id="isk-qr-ikR"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="0XM-y9-sOw" firstAttribute="leading" secondItem="svH-Pt-448" secondAttribute="leading" constant="20" symbolic="YES" id="Tsc-yG-G1q"/>
-                            <constraint firstItem="0XM-y9-sOw" firstAttribute="centerY" secondItem="svH-Pt-448" secondAttribute="centerY" id="jWN-iV-94e"/>
-                            <constraint firstAttribute="trailing" secondItem="0XM-y9-sOw" secondAttribute="trailing" constant="20" symbolic="YES" id="tHV-ZD-HQj"/>
+                            <constraint firstItem="MJc-OM-4ix" firstAttribute="centerX" secondItem="svH-Pt-448" secondAttribute="centerX" id="HLf-2P-hAh"/>
+                            <constraint firstItem="GAO-Cl-Wes" firstAttribute="top" secondItem="hoe-7M-ddW" secondAttribute="bottom" constant="98" id="J0A-g6-2SC"/>
+                            <constraint firstItem="srB-rG-oLg" firstAttribute="centerX" secondItem="svH-Pt-448" secondAttribute="centerX" id="a0z-Qj-jdA"/>
+                            <constraint firstItem="MJc-OM-4ix" firstAttribute="centerY" secondItem="svH-Pt-448" secondAttribute="centerY" id="gmI-Ey-XpL"/>
+                            <constraint firstItem="srB-rG-oLg" firstAttribute="top" secondItem="SYR-Wa-9uf" secondAttribute="bottom" constant="62" id="sbm-s2-1Kd"/>
+                            <constraint firstItem="hoe-7M-ddW" firstAttribute="centerX" secondItem="svH-Pt-448" secondAttribute="centerX" id="tFF-nT-lGZ"/>
                         </constraints>
                     </view>
                     <toolbarItems/>
-                    <navigationItem key="navigationItem" title="Detail" id="mOI-FS-AaM"/>
+                    <navigationItem key="navigationItem" title="Question Time!" id="mOI-FS-AaM"/>
                     <connections>
-                        <outlet property="detailDescriptionLabel" destination="0XM-y9-sOw" id="deQ-Na-JPF"/>
+                        <outlet property="picker" destination="MJc-OM-4ix" id="waW-dV-rzg"/>
+                        <outlet property="questionLabel" destination="srB-rG-oLg" id="bBp-fX-oAt"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FJe-Yq-33r" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="709" y="129"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="6Qo-wf-tZ8">
+            <objects>
+                <viewController id="AwY-9K-8TQ" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="VDd-nB-Gsj"/>
+                        <viewControllerLayoutGuide type="bottom" id="5PB-hV-bPX"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="DUH-93-r0t">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Correct" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CAK-p6-eWL">
+                                <rect key="frame" x="271" y="140" width="58" height="20.5"/>
+                                <animations/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GYV-fc-9IX">
+                                <rect key="frame" x="284" y="433" width="32" height="30"/>
+                                <animations/>
+                                <state key="normal" title="Next"/>
+                                <connections>
+                                    <segue destination="JEX-9P-axG" kind="show" id="IQc-bZ-VNj"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <animations/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="CAK-p6-eWL" firstAttribute="centerX" secondItem="DUH-93-r0t" secondAttribute="centerX" id="0o4-7v-Jhy"/>
+                            <constraint firstItem="CAK-p6-eWL" firstAttribute="top" secondItem="VDd-nB-Gsj" secondAttribute="bottom" constant="120" id="2bZ-B7-7MK"/>
+                            <constraint firstItem="5PB-hV-bPX" firstAttribute="top" secondItem="GYV-fc-9IX" secondAttribute="bottom" constant="137" id="Fpy-AI-UOD"/>
+                            <constraint firstItem="GYV-fc-9IX" firstAttribute="centerX" secondItem="DUH-93-r0t" secondAttribute="centerX" id="UOQ-CL-as9"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="R8P-Nv-MeA" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1380" y="129"/>
         </scene>
         <!--Split View Controller-->
         <scene sceneID="Nki-YV-4Qg">
@@ -156,5 +213,6 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="6S0-TO-JiA"/>
+        <segue reference="IQc-bZ-VNj"/>
     </inferredMetricsTieBreakers>
 </document>

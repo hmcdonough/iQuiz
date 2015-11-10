@@ -36,6 +36,25 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
         }
     }
     
+    class question {
+        var question: String!
+        var answers: [String]!
+        var answerIndex: Int!
+        
+        init(question: String, answers: [String], answerIndex: Int){
+            self.question = question
+            self.answers = answers
+        }
+    }
+    
+    class quiz {
+        var questions: [question]!
+        
+        init(questions: [question]){
+            self.questions = questions
+        }
+    }
+    
     class quizDataSource {
         var quizzes:[quizTemplate]
         
@@ -78,6 +97,22 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
         self.tableView.delegate = self
         self.tableView.dataSource = self
         self.quizzes = quizList.getQuizzes()
+        
+        //Individual quiz variables
+        let question1 = question(question: "What is 2 + 4?", answers: ["5", "6", "7"], answerIndex: 2)
+        let question2 = question(question: "What is 5 * 7?", answers: ["22", "43", "35"], answerIndex: 3)
+        let question3 = question(question: "What is 120 - 34?", answers: ["86", "90", "94"], answerIndex: 1)
+        
+        let question4 = question(question: "Finish the name: 'Captian...'", answers: ["Liberty", "Freedom", "America"], answerIndex: 3)
+        let question5 = question(question: "What is the name of Tony Stark's A.I.?", answers: ["Jarvis", "Jeeves", "Jenkins"], answerIndex: 1)
+        let question6 = question(question: "What super group is formed by marvel super heroes?", answers: ["Justice League", "Avengers", "Batman"], answerIndex: 2)
+        let question7 = question(question: "What bugs were featured in a 2015 Marvel movie?", answers: ["Ants", "Worms", "Termites"], answerIndex: 1)
+        
+        let question8 = question(question: "What state is ice in?", answers: ["Gas", "Liquid", "Solid"], answerIndex: 3)
+        
+        let mathQuiz = quiz(questions: [question1, question2, question3])
+        let marvelQuiz = quiz(questions: [question4, question5, question6, question7])
+        let scienceQuiz = quiz(questions: [question8])
     }
 
     override func viewWillAppear(animated: Bool) {
