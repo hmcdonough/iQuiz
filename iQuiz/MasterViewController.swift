@@ -97,22 +97,6 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
         self.tableView.delegate = self
         self.tableView.dataSource = self
         self.quizzes = quizList.getQuizzes()
-        
-        //Individual quiz variables
-        let question1 = question(question: "What is 2 + 4?", answers: ["5", "6", "7"], answerIndex: 2)
-        let question2 = question(question: "What is 5 * 7?", answers: ["22", "43", "35"], answerIndex: 3)
-        let question3 = question(question: "What is 120 - 34?", answers: ["86", "90", "94"], answerIndex: 1)
-        
-        let question4 = question(question: "Finish the name: 'Captian...'", answers: ["Liberty", "Freedom", "America"], answerIndex: 3)
-        let question5 = question(question: "What is the name of Tony Stark's A.I.?", answers: ["Jarvis", "Jeeves", "Jenkins"], answerIndex: 1)
-        let question6 = question(question: "What super group is formed by marvel super heroes?", answers: ["Justice League", "Avengers", "Batman"], answerIndex: 2)
-        let question7 = question(question: "What bugs were featured in a 2015 Marvel movie?", answers: ["Ants", "Worms", "Termites"], answerIndex: 1)
-        
-        let question8 = question(question: "What state is ice in?", answers: ["Gas", "Liquid", "Solid"], answerIndex: 3)
-        
-        let mathQuiz = quiz(questions: [question1, question2, question3])
-        let marvelQuiz = quiz(questions: [question4, question5, question6, question7])
-        let scienceQuiz = quiz(questions: [question8])
     }
 
     override func viewWillAppear(animated: Bool) {
@@ -148,21 +132,36 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
     // MARK: - Segues
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-//        if segue.identifier == "showDetail" {
-//            if let indexPath = self.tableView.indexPathForSelectedRow {
-//            let object = self.fetchedResultsController.objectAtIndexPath(indexPath)
-//                let controller = (segue.destinationViewController as! UINavigationController).topViewController as! DetailViewController
-//                controller.detailItem = object
-//                controller.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem()
-//                controller.navigationItem.leftItemsSupplementBackButton = true
-//            }
-//        }
+        
+        let question1 = question(question: "What is 2 + 4?", answers: ["5", "6", "7"], answerIndex: 2)
+        let question2 = question(question: "What is 5 * 7?", answers: ["22", "43", "35"], answerIndex: 3)
+        let question3 = question(question: "What is 120 - 34?", answers: ["86", "90", "94"], answerIndex: 1)
+        
+        let question4 = question(question: "Finish the name: 'Captian...'", answers: ["Liberty", "Freedom", "America"], answerIndex: 3)
+        let question5 = question(question: "What is the name of Tony Stark's A.I.?", answers: ["Jarvis", "Jeeves", "Jenkins"], answerIndex: 1)
+        let question6 = question(question: "What super group is formed by marvel super heroes?", answers: ["Justice League", "Avengers", "Batman"], answerIndex: 2)
+        let question7 = question(question: "What bugs were featured in a 2015 Marvel movie?", answers: ["Ants", "Worms", "Termites"], answerIndex: 1)
+        
+        let question8 = question(question: "What state is ice in?", answers: ["Gas", "Liquid", "Solid"], answerIndex: 3)
+        
+        let mathQuiz = quiz(questions: [question1, question2, question3])
+        let marvelQuiz = quiz(questions: [question4, question5, question6, question7])
+        let scienceQuiz = quiz(questions: [question8])
+        
+        if segue.identifier == "showDetail" {
+            if let indexPath = self.tableView.indexPathForSelectedRow {
+                let controller = (segue.destinationViewController as! UINavigationController).topViewController as! DetailViewController
+                controller.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem()
+                controller.navigationItem.leftItemsSupplementBackButton = true
+                controller.quizSet = mathQuiz
+            }
+        }
     }
 
     // MARK: - Table View
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return self.fetchedResultsController.sections?.count ?? 0
+        return 1
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -171,7 +170,6 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath)
-        self.configureCell(cell, atIndexPath: indexPath)
         
         let quiz = self.quizzes[indexPath.row]
         cell.textLabel?.text = quiz.title
@@ -179,113 +177,5 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
         cell.imageView?.image = UIImage(named: quiz.imageName)
         return cell
     }
-
-    override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
-    }
-
-    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        if editingStyle == .Delete {
-            let context = self.fetchedResultsController.managedObjectContext
-            context.deleteObject(self.fetchedResultsController.objectAtIndexPath(indexPath) as! NSManagedObject)
-                
-            do {
-                try context.save()
-            } catch {
-                // Replace this implementation with code to handle the error appropriately.
-                // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                //print("Unresolved error \(error), \(error.userInfo)")
-                abort()
-            }
-        }
-    }
-
-    func configureCell(cell: UITableViewCell, atIndexPath indexPath: NSIndexPath) {
-//        let object = self.fetchedResultsController.objectAtIndexPath(indexPath)
-//        cell.textLabel!.text = object.valueForKey("timeStamp")!.description
-    }
-
-    // MARK: - Fetched results controller
-
-    var fetchedResultsController: NSFetchedResultsController {
-        if _fetchedResultsController != nil {
-            return _fetchedResultsController!
-        }
-        
-        let fetchRequest = NSFetchRequest()
-        // Edit the entity name as appropriate.
-        let entity = NSEntityDescription.entityForName("Event", inManagedObjectContext: self.managedObjectContext!)
-        fetchRequest.entity = entity
-        
-        // Set the batch size to a suitable number.
-        fetchRequest.fetchBatchSize = 20
-        
-        // Edit the sort key as appropriate.
-        let sortDescriptor = NSSortDescriptor(key: "timeStamp", ascending: false)
-        
-        fetchRequest.sortDescriptors = [sortDescriptor]
-        
-        // Edit the section name key path and cache name if appropriate.
-        // nil for section name key path means "no sections".
-        let aFetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: self.managedObjectContext!, sectionNameKeyPath: nil, cacheName: "Master")
-        aFetchedResultsController.delegate = self
-        _fetchedResultsController = aFetchedResultsController
-        
-        do {
-            try _fetchedResultsController!.performFetch()
-        } catch {
-             // Replace this implementation with code to handle the error appropriately.
-             // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development. 
-             //print("Unresolved error \(error), \(error.userInfo)")
-             abort()
-        }
-        
-        return _fetchedResultsController!
-    }    
-    var _fetchedResultsController: NSFetchedResultsController? = nil
-
-    func controllerWillChangeContent(controller: NSFetchedResultsController) {
-        self.tableView.beginUpdates()
-    }
-
-    func controller(controller: NSFetchedResultsController, didChangeSection sectionInfo: NSFetchedResultsSectionInfo, atIndex sectionIndex: Int, forChangeType type: NSFetchedResultsChangeType) {
-        switch type {
-            case .Insert:
-                self.tableView.insertSections(NSIndexSet(index: sectionIndex), withRowAnimation: .Fade)
-            case .Delete:
-                self.tableView.deleteSections(NSIndexSet(index: sectionIndex), withRowAnimation: .Fade)
-            default:
-                return
-        }
-    }
-
-    func controller(controller: NSFetchedResultsController, didChangeObject anObject: AnyObject, atIndexPath indexPath: NSIndexPath?, forChangeType type: NSFetchedResultsChangeType, newIndexPath: NSIndexPath?) {
-        switch type {
-            case .Insert:
-                tableView.insertRowsAtIndexPaths([newIndexPath!], withRowAnimation: .Fade)
-            case .Delete:
-                tableView.deleteRowsAtIndexPaths([indexPath!], withRowAnimation: .Fade)
-            case .Update:
-                self.configureCell(tableView.cellForRowAtIndexPath(indexPath!)!, atIndexPath: indexPath!)
-            case .Move:
-                tableView.deleteRowsAtIndexPaths([indexPath!], withRowAnimation: .Fade)
-                tableView.insertRowsAtIndexPaths([newIndexPath!], withRowAnimation: .Fade)
-        }
-    }
-
-    func controllerDidChangeContent(controller: NSFetchedResultsController) {
-        self.tableView.endUpdates()
-    }
-
-    /*
-     // Implementing the above methods to update the table view in response to individual changes may have performance implications if a large number of changes are made simultaneously. If this proves to be an issue, you can instead just implement controllerDidChangeContent: which notifies the delegate that all section and object changes have been processed.
-     
-     func controllerDidChangeContent(controller: NSFetchedResultsController) {
-         // In the simplest, most efficient, case, reload the table view.
-         self.tableView.reloadData()
-     }
-     */
-
 }
 

@@ -14,8 +14,16 @@ class DetailViewController: UIViewController {
 
     @IBOutlet weak var questionLabel: UILabel!
     @IBOutlet weak var picker: UIPickerView!
-    let pickerData = ["1", "2", "3"]
+    @IBOutlet weak var submitQuestion: UIButton!
+    var quizSet : MasterViewController.quiz = MasterViewController.quiz(questions: [])
+    
+    @IBOutlet weak var resultLabel: UILabel!
+    @IBOutlet weak var nextButton: UIButton!
+    @IBOutlet weak var nextFinish: UIButton!
+    
+    @IBOutlet weak var scoreLabel: UILabel!
 
+    
     var detailItem: AnyObject? {
         didSet {
             // Update the view.
@@ -36,8 +44,8 @@ class DetailViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         self.configureView()
-//        picker.dataSource = self;
-
+//        self.picker.dataSource = self
+        print(quizSet.questions[0].question)
     }
 
 

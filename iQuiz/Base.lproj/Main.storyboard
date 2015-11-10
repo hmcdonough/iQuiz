@@ -68,16 +68,17 @@
                     <connections>
                         <outlet property="picker" destination="MJc-OM-4ix" id="waW-dV-rzg"/>
                         <outlet property="questionLabel" destination="srB-rG-oLg" id="bBp-fX-oAt"/>
+                        <outlet property="submitQuestion" destination="hoe-7M-ddW" id="Zdl-TW-n0i"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FJe-Yq-33r" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="709" y="129"/>
         </scene>
-        <!--View Controller-->
+        <!--Detail View Controller-->
         <scene sceneID="6Qo-wf-tZ8">
             <objects>
-                <viewController id="AwY-9K-8TQ" sceneMemberID="viewController">
+                <viewController id="AwY-9K-8TQ" customClass="DetailViewController" customModule="iQuiz" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="VDd-nB-Gsj"/>
                         <viewControllerLayoutGuide type="bottom" id="5PB-hV-bPX"/>
@@ -101,20 +102,66 @@
                                     <segue destination="JEX-9P-axG" kind="show" id="IQc-bZ-VNj"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7oW-Yk-pU3">
+                                <rect key="frame" x="280" y="482" width="41" height="30"/>
+                                <animations/>
+                                <state key="normal" title="Finish"/>
+                                <connections>
+                                    <segue destination="M7Z-BL-4Ce" kind="show" id="5NX-gQ-okY"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="CAK-p6-eWL" firstAttribute="centerX" secondItem="DUH-93-r0t" secondAttribute="centerX" id="0o4-7v-Jhy"/>
                             <constraint firstItem="CAK-p6-eWL" firstAttribute="top" secondItem="VDd-nB-Gsj" secondAttribute="bottom" constant="120" id="2bZ-B7-7MK"/>
+                            <constraint firstItem="5PB-hV-bPX" firstAttribute="top" secondItem="7oW-Yk-pU3" secondAttribute="bottom" constant="88" id="5WA-Jd-bBS"/>
                             <constraint firstItem="5PB-hV-bPX" firstAttribute="top" secondItem="GYV-fc-9IX" secondAttribute="bottom" constant="137" id="Fpy-AI-UOD"/>
+                            <constraint firstItem="7oW-Yk-pU3" firstAttribute="centerX" secondItem="DUH-93-r0t" secondAttribute="centerX" id="PTW-Sg-dyS"/>
                             <constraint firstItem="GYV-fc-9IX" firstAttribute="centerX" secondItem="DUH-93-r0t" secondAttribute="centerX" id="UOQ-CL-as9"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="nextButton" destination="GYV-fc-9IX" id="chH-NT-MHt"/>
+                        <outlet property="nextFinish" destination="7oW-Yk-pU3" id="pNY-Mh-wl7"/>
+                        <outlet property="resultLabel" destination="CAK-p6-eWL" id="O3Z-Zy-0nm"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="R8P-Nv-MeA" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1380" y="129"/>
+        </scene>
+        <!--Detail View Controller-->
+        <scene sceneID="bte-ur-b2g">
+            <objects>
+                <viewController id="M7Z-BL-4Ce" customClass="DetailViewController" customModule="iQuiz" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="fvV-AY-CgL"/>
+                        <viewControllerLayoutGuide type="bottom" id="FH5-eL-oCQ"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="0rB-2m-leL">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DLk-S2-Xgf">
+                                <rect key="frame" x="279" y="289" width="42" height="21"/>
+                                <animations/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <animations/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <connections>
+                        <outlet property="scoreLabel" destination="DLk-S2-Xgf" id="NsM-KG-JiS"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="XDD-0C-rDg" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2053" y="129"/>
         </scene>
         <!--Split View Controller-->
         <scene sceneID="Nki-YV-4Qg">
