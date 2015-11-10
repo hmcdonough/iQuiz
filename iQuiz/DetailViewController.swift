@@ -16,6 +16,7 @@ class DetailViewController: UIViewController {
     @IBOutlet weak var picker: UIPickerView!
     @IBOutlet weak var submitQuestion: UIButton!
     var quizSet : MasterViewController.quiz = MasterViewController.quiz(questions: [])
+    var quizCount : Int = 0
     
     @IBOutlet weak var resultLabel: UILabel!
     @IBOutlet weak var nextButton: UIButton!
@@ -45,7 +46,8 @@ class DetailViewController: UIViewController {
         // Do any additional setup after loading the view, typically from a nib.
         self.configureView()
 //        self.picker.dataSource = self
-        print(quizSet.questions[0].question)
+        questionLabel.text = quizSet.questions[quizCount].question
+//        self.picker.dataSource = quizSet.questions[quizCount].answers
     }
 
 

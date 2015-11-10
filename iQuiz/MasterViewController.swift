@@ -28,11 +28,13 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
         var imageName: String!
         var title: String!
         var subtext: String!
+        var test: quiz
         
-        init(title: String, imageName: String, subtext: String){
+        init(title: String, imageName: String, subtext: String, test: quiz){
             self.imageName = imageName
             self.title = title
             self.subtext = subtext
+            self.test = test
         }
     }
     
@@ -44,6 +46,10 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
         init(question: String, answers: [String], answerIndex: Int){
             self.question = question
             self.answers = answers
+        }
+        
+        func getCorrectString() -> String{
+            return answers[answerIndex]
         }
     }
     
@@ -60,11 +66,27 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
         
         init() {
             quizzes = []
-            
-            let q1 = quizTemplate(title: "Math", imageName: "Math.jpg", subtext: "Challenge your arithmetic skills")
-            let q2 = quizTemplate(title: "Marvel Super Heroes", imageName: "marvel.jpeg", subtext: "Think you've got what it takes to challenge these superheroes?")
-            let q3 = quizTemplate(title: "Science", imageName: "Science.jpg", subtext: "Don't trust banks, take science quizzes")
 
+            let question1 = question(question: "What is 2 + 4?", answers: ["5", "6", "7", "8"], answerIndex: 1)
+            let question2 = question(question: "What is 5 * 7?", answers: ["22", "43", "35", "50"], answerIndex: 2)
+            let question3 = question(question: "What is 120 - 34?", answers: ["86", "90", "94", "98"], answerIndex: 0)
+            
+            let question4 = question(question: "Finish the name: 'Captian...'", answers: ["Liberty", "Freedom", "America", "Blart"], answerIndex: 2)
+            let question5 = question(question: "What is the name of Tony Stark's A.I.?", answers: ["Jarvis", "Jeeves", "Jenkins", "All of the above"], answerIndex: 0)
+            let question6 = question(question: "What super group is formed by marvel super heroes?", answers: ["Justice League", "Avengers", "Batman", "Nato"], answerIndex: 1)
+            let question7 = question(question: "What bugs were featured in a 2015 Marvel movie?", answers: ["Ants", "Worms", "Termites", "Sasquatch"], answerIndex: 0)
+            
+            let question8 = question(question: "What state is ice in?", answers: ["Gas", "Liquid", "Solid", "Arkansas"], answerIndex: 2)
+            
+            let mathQuiz = quiz(questions: [question1, question2, question3])
+            let marvelQuiz = quiz(questions: [question4, question5, question6, question7])
+            let scienceQuiz = quiz(questions: [question8])
+
+            
+            let q1 = quizTemplate(title: "Math", imageName: "Math.jpg", subtext: "Challenge your arithmetic skills", test: mathQuiz)
+            let q2 = quizTemplate(title: "Marvel Super Heroes", imageName: "marvel.jpeg", subtext: "Think you've got what it takes to challenge these superheroes?", test: marvelQuiz)
+            let q3 = quizTemplate(title: "Science", imageName: "Science.jpg", subtext: "Don't trust banks, take science quizzes", test: scienceQuiz)
+            
             quizzes.append(q1)
             quizzes.append(q2)
             quizzes.append(q3)
@@ -132,28 +154,13 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
     // MARK: - Segues
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        
-        let question1 = question(question: "What is 2 + 4?", answers: ["5", "6", "7"], answerIndex: 2)
-        let question2 = question(question: "What is 5 * 7?", answers: ["22", "43", "35"], answerIndex: 3)
-        let question3 = question(question: "What is 120 - 34?", answers: ["86", "90", "94"], answerIndex: 1)
-        
-        let question4 = question(question: "Finish the name: 'Captian...'", answers: ["Liberty", "Freedom", "America"], answerIndex: 3)
-        let question5 = question(question: "What is the name of Tony Stark's A.I.?", answers: ["Jarvis", "Jeeves", "Jenkins"], answerIndex: 1)
-        let question6 = question(question: "What super group is formed by marvel super heroes?", answers: ["Justice League", "Avengers", "Batman"], answerIndex: 2)
-        let question7 = question(question: "What bugs were featured in a 2015 Marvel movie?", answers: ["Ants", "Worms", "Termites"], answerIndex: 1)
-        
-        let question8 = question(question: "What state is ice in?", answers: ["Gas", "Liquid", "Solid"], answerIndex: 3)
-        
-        let mathQuiz = quiz(questions: [question1, question2, question3])
-        let marvelQuiz = quiz(questions: [question4, question5, question6, question7])
-        let scienceQuiz = quiz(questions: [question8])
-        
         if segue.identifier == "showDetail" {
             if let indexPath = self.tableView.indexPathForSelectedRow {
                 let controller = (segue.destinationViewController as! UINavigationController).topViewController as! DetailViewController
                 controller.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem()
                 controller.navigationItem.leftItemsSupplementBackButton = true
-                controller.quizSet = mathQuiz
+                controller.quizSet = self.quizzes[indexPath.row].test
+                controller.quizCount = 1
             }
         }
     }
