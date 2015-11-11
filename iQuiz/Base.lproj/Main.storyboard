@@ -86,7 +86,7 @@
             </objects>
             <point key="canvasLocation" x="709" y="129"/>
         </scene>
-        <!--Detail View Controller-->
+        <!--Title-->
         <scene sceneID="6Qo-wf-tZ8">
             <objects>
                 <viewController id="AwY-9K-8TQ" customClass="DetailViewController" customModule="iQuiz" customModuleProvider="target" sceneMemberID="viewController">
@@ -151,6 +151,13 @@
                             <constraint firstItem="fq0-IR-g5q" firstAttribute="top" secondItem="VDd-nB-Gsj" secondAttribute="bottom" constant="181" id="wPh-ow-LDa"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" title="Title" id="mMf-6Q-ekX">
+                        <barButtonItem key="leftBarButtonItem" title="Back" id="Hep-mh-k7x">
+                            <connections>
+                                <segue destination="RMx-3f-FxP" kind="show" id="yTq-37-YUu"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="finishButton" destination="7oW-Yk-pU3" id="0PX-j5-ytU"/>
                         <outlet property="nextButton" destination="GYV-fc-9IX" id="chH-NT-MHt"/>
@@ -164,7 +171,7 @@
             </objects>
             <point key="canvasLocation" x="1380" y="129"/>
         </scene>
-        <!--Detail View Controller-->
+        <!--Title-->
         <scene sceneID="bte-ur-b2g">
             <objects>
                 <viewController id="M7Z-BL-4Ce" customClass="DetailViewController" customModule="iQuiz" customModuleProvider="target" sceneMemberID="viewController">
@@ -190,7 +197,7 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nND-vg-N2I">
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nND-vg-N2I">
                                 <rect key="frame" x="284" y="461" width="32" height="30"/>
                                 <animations/>
                                 <state key="normal" title="Next"/>
@@ -210,6 +217,15 @@
                             <constraint firstItem="3oh-PO-pHO" firstAttribute="centerX" secondItem="0rB-2m-leL" secondAttribute="centerX" id="lWo-5T-fPK"/>
                         </constraints>
                     </view>
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" title="Title" id="5Gj-he-qqL">
+                        <barButtonItem key="leftBarButtonItem" title="Back" id="Kyl-5Q-D4i">
+                            <connections>
+                                <segue destination="RMx-3f-FxP" kind="show" id="fSP-Zo-kcs"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="Next" destination="nND-vg-N2I" id="1i7-aK-uyt"/>
                         <outlet property="descriptiveLabel" destination="3oh-PO-pHO" id="3fW-OR-Zow"/>
@@ -246,7 +262,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Cell" textLabel="BOi-mX-xUS" detailTextLabel="vhy-zT-Hwu" rowHeight="102" style="IBUITableViewCellStyleSubtitle" id="WCw-Qf-5nD">
-                                <rect key="frame" x="0.0" y="86" width="600" height="102"/>
+                                <rect key="frame" x="0.0" y="22" width="600" height="102"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="WCw-Qf-5nD" id="37f-cq-3Eg">
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="101.5"/>
@@ -318,7 +334,7 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="Tll-UG-LXB"/>
-        <segue reference="GKi-kA-LjT"/>
+        <segue reference="IQc-bZ-VNj"/>
         <segue reference="NG2-PC-RNH"/>
     </inferredMetricsTieBreakers>
 </document>

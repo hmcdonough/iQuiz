@@ -126,8 +126,8 @@ class DetailViewController: UIViewController {
                 controller.correctAnswers = correctAnswers
                 controller.quizSet = quizSet
                 controller.quizCount = quizCount
-                controller.navigationItem.backBarButtonItem?.target = self.navigationController
-                controller.navigationItem.backBarButtonItem?.title = "Main Menu"
+//                controller.navigationItem.backBarButtonItem?.target = self.navigationController
+//                controller.navigationItem.backBarButtonItem?.title = "Back"
             }
         }
     }
