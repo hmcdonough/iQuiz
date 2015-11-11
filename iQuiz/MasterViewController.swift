@@ -46,6 +46,7 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
         init(question: String, answers: [String], answerIndex: Int){
             self.question = question
             self.answers = answers
+            self.answerIndex = answerIndex
         }
         
         func getCorrectString() -> String{
@@ -160,7 +161,7 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
                 controller.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem()
                 controller.navigationItem.leftItemsSupplementBackButton = true
                 controller.quizSet = self.quizzes[indexPath.row].test
-                controller.quizCount = 1
+                controller.quizCount = 0
             }
         }
     }
