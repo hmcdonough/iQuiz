@@ -126,8 +126,6 @@ class DetailViewController: UIViewController {
                 controller.correctAnswers = correctAnswers
                 controller.quizSet = quizSet
                 controller.quizCount = quizCount
-//                controller.navigationItem.backBarButtonItem?.target = self.navigationController
-//                controller.navigationItem.backBarButtonItem?.title = "Back"
             }
         }
     }
@@ -136,7 +134,5 @@ class DetailViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
-
 }
 
