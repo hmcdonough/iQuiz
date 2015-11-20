@@ -23,6 +23,78 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
             
         }
     }
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        if UIDevice.currentDevice().userInterfaceIdiom == .Pad {
+            self.clearsSelectionOnViewWillAppear = false
+            self.preferredContentSize = CGSize(width: 320.0, height: 600.0)
+        }
+        
+        // Load stored URL to get quizzes
+        if let storedURL = defaults.stringForKey("url") {
+            jsonUrl = storedURL
+        }
+        
+        // Load previously saved quizzes in case of no internet connection
+        if let storedObjects: AnyObject = defaults.objectForKey("quizList") {
+            quizzes = getJsonQuizzes(storedObjects as! NSMutableArray)
+        }
+    }
+    
+    var jsonUrl = "http://tednewardsandbox.site44.com/questions.json"
+    var jsonData = NSMutableData()
+    
+    func getJSON(urlToRequest: String) -> NSData{
+        return NSData(contentsOfURL: NSURL(string: urlToRequest)!)!
+    }
+    
+    func parseJSON(inputData: NSData) -> NSMutableArray {
+        do {
+            if let jsonResult = try NSJSONSerialization.JSONObjectWithData(inputData, options: []) as? NSMutableArray {
+                return jsonResult
+            }
+        } catch {
+            print(error)
+        }
+        return []
+    }
+    
+    func connect() {
+        let path : String = jsonUrl
+        let url : NSURL = NSURL(string: path)!
+        let request: NSURLRequest = NSURLRequest(URL: url)
+        let connection: NSURLConnection = NSURLConnection(request: request, delegate: self, startImmediately: false)!
+        connection.start()
+    }
+    
+    func updateUI() {
+//        let uiData = getJSON(jsonUrl)
+//        self.jsonData.setData(parseJSON(uiData))
+        
+    }
+    
+    func connection(connection: NSURLConnection!, didReceiveData data: NSData!) {
+        self.jsonData.setData(data)
+    }
+    
+    let defaults = NSUserDefaults.standardUserDefaults()
+
+    func connectionDidFinishLoading(connection: NSURLConnection!) {
+//        var jsonResult: NSMutableArray = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers, error: nil) as! NSMutableArray
+        do {
+            if let jsonResult = try NSJSONSerialization.JSONObjectWithData(jsonData, options: []) as? NSMutableArray {
+                quizzes = getJsonQuizzes(jsonResult)
+                defaults.setObject(jsonResult, forKey: "quizList")
+                
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    self.tableView.reloadData()
+                })
+            }
+        } catch {
+            print(error)
+        }
+    }
 
     class quizTemplate {
         var imageName: String!
@@ -99,6 +171,28 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
         
     }
     
+    func getJsonQuizzes(data: NSMutableArray) -> [quizTemplate] {
+        var importedQuizzes : [quizTemplate] = []
+        
+        for (var i = 0; i < data.count as Int; i++) {
+            let newQuiz: AnyObject = data[i]
+            var createdQuestions : [question] = []
+            var receivedQuestions : [AnyObject] = newQuiz["questions"] as! [AnyObject]
+            
+            for (var j = 0; j < receivedQuestions.count; j++) {
+                let newQuestion: AnyObject = receivedQuestions[j]
+                let correct : Int = Int(newQuestion["answer"] as! String)! - 1
+                let createdQuestion = question(question: newQuestion["text"] as! String, answers: newQuestion["answers"] as! [String], answerIndex: correct)
+                
+                createdQuestions.append(createdQuestion)
+            }
+            
+            let createdQuiz = quizTemplate(title: newQuiz["title"] as! String, imageName: "", subtext: newQuiz["desc"] as! String, test: quiz(questions: createdQuestions))
+            importedQuizzes.append(createdQuiz)
+        }
+        return importedQuizzes
+    }
+    
     let quizList = quizDataSource()
     var quizzes : [quizTemplate] = quizDataSource().getQuizzes()
     
@@ -117,9 +211,12 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
         }
         alertController.addAction(OKAction)
         
+        
         self.tableView.delegate = self
         self.tableView.dataSource = self
         self.quizzes = quizList.getQuizzes()
+        
+        connect()
     }
 
     override func viewWillAppear(animated: Bool) {
