@@ -16,49 +16,49 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
     
     @IBOutlet weak var settingsButton: UIBarButtonItem!
     
-    let alertController = UIAlertController(title: "Settings Go Here", message: "Okie Dokie", preferredStyle: .Alert)
-
     @IBAction func clickSettingsButton(sender: AnyObject) {
-        self.presentViewController(alertController, animated: true) {
-            
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: UIAlertControllerStyle.Alert)
+        
+        let newURLAction = UIAlertAction(title: "New Quiz", style: UIAlertActionStyle.Default) {
+            (action) in
+                self.newUrl()
         }
+        alertController.addAction(newURLAction)
+
+        let closeAction = UIAlertAction(title: "Back", style: UIAlertActionStyle.Cancel) {
+            (action) in
+        }
+        alertController.addAction(closeAction)
+        
+        alertController.modalPresentationStyle = .Popover
+        self.presentViewController(alertController, animated: true, completion: nil)
     }
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        if UIDevice.currentDevice().userInterfaceIdiom == .Pad {
-            self.clearsSelectionOnViewWillAppear = false
-            self.preferredContentSize = CGSize(width: 320.0, height: 600.0)
+
+    func newUrl() {
+        let alertController = UIAlertController(title: "New Url", message: nil, preferredStyle: UIAlertControllerStyle.Alert)
+        
+        alertController.addTextFieldWithConfigurationHandler { (textField) -> Void in
+            textField.placeholder = "Url"
         }
         
-        // Load stored URL to get quizzes
-        if let storedURL = defaults.stringForKey("url") {
-            jsonUrl = storedURL
+        let closeAction = UIAlertAction(title: "Close", style: UIAlertActionStyle.Cancel){
+            (action) in
         }
+        alertController.addAction(closeAction)
         
-        // Load previously saved quizzes in case of no internet connection
-        if let storedObjects: AnyObject = defaults.objectForKey("quizList") {
-            quizzes = getJsonQuizzes(storedObjects as! NSMutableArray)
+        let OKAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default) {
+            (action) in
+                let field = alertController.textFields!.first as? UITextField!
+                self.defaults.setValue(field!.text, forKey: "url")
+                self.jsonUrl = field!.text!
+                self.connect()
         }
+        alertController.addAction(OKAction)
+        self.presentViewController(alertController, animated: true, completion: nil)
     }
     
     var jsonUrl = "http://tednewardsandbox.site44.com/questions.json"
     var jsonData = NSMutableData()
-    
-    func getJSON(urlToRequest: String) -> NSData{
-        return NSData(contentsOfURL: NSURL(string: urlToRequest)!)!
-    }
-    
-    func parseJSON(inputData: NSData) -> NSMutableArray {
-        do {
-            if let jsonResult = try NSJSONSerialization.JSONObjectWithData(inputData, options: []) as? NSMutableArray {
-                return jsonResult
-            }
-        } catch {
-            print(error)
-        }
-        return []
-    }
     
     func connect() {
         let path : String = jsonUrl
@@ -66,12 +66,6 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
         let request: NSURLRequest = NSURLRequest(URL: url)
         let connection: NSURLConnection = NSURLConnection(request: request, delegate: self, startImmediately: false)!
         connection.start()
-    }
-    
-    func updateUI() {
-//        let uiData = getJSON(jsonUrl)
-//        self.jsonData.setData(parseJSON(uiData))
-        
     }
     
     func connection(connection: NSURLConnection!, didReceiveData data: NSData!) {
@@ -201,22 +195,40 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
 
         tableView.tableFooterView = UIView()
         self.navigationItem.leftBarButtonItem = settingsButton
-        let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel) { (action) in
-            
-        }
-        alertController.addAction(cancelAction)
-        
-        let OKAction = UIAlertAction(title: "OK", style: .Default) { (action) in
-            
-        }
-        alertController.addAction(OKAction)
-        
+//        let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel) { (action) in
+//            
+//        }
+//        alertController.addAction(cancelAction)
+//        
+//        let OKAction = UIAlertAction(title: "OK", style: .Default) { (action) in
+//            
+//        }
+//        alertController.addAction(OKAction)
+//        
         
         self.tableView.delegate = self
         self.tableView.dataSource = self
         self.quizzes = quizList.getQuizzes()
         
         connect()
+    }
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        if UIDevice.currentDevice().userInterfaceIdiom == .Pad {
+            self.clearsSelectionOnViewWillAppear = false
+            self.preferredContentSize = CGSize(width: 320.0, height: 600.0)
+        }
+        
+        // Load stored URL to get quizzes
+        if let storedURL = defaults.stringForKey("url") {
+            jsonUrl = storedURL
+        }
+        
+        // Load previously saved quizzes in case of no internet connection
+        if let storedObjects: AnyObject = defaults.objectForKey("quizList") {
+            quizzes = getJsonQuizzes(storedObjects as! NSMutableArray)
+        }
     }
 
     override func viewWillAppear(animated: Bool) {
